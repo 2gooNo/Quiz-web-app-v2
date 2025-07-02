@@ -2,7 +2,7 @@ export default function Login() {
     return (
         <div className="flex h-screen w-screen ">
             <div className="flex flex-col items-center w-1/2 p-50 bg-white">
-                <img src="/logo.png" alt="QuiGrad logo" className="w-100 mb-10" />
+                <img src="/logo.svg" alt="QuiGrad logo" className="w-100 mb-10" />
                 <p className="text-gray-500 mb-8 text-center">
                     Welcome back! <br/>
                     Please login/signup to your account.
