@@ -1,59 +1,85 @@
+"use client";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 export default function Login() {
-    return (
-        <div className="flex h-screen w-screen ">
-            <div className="flex flex-col items-center w-1/2 p-50 bg-white">
-                <img src="/logo.svg" alt="QuiGrad logo" className="w-100 mb-10" />
-                <p className="text-gray-500 mb-8 text-center">
-                    Welcome back! <br/>
-                    Please login/signup to your account.
-                </p>
-
-                <form className="w-full max-w-lg space-y-8">
-                    <div>
-                        <label className="text-xl font-semibold">Email address</label>
+    const [data, setData] = useState({
+        email: '',
+        password: ''
+    });
+    async function handleLogin() {
+        try {
+            const response = await axios.post('http://localhost:8000/login', {
+                email: data.email,
+                password: data.password
+            });
+            console.log("Login successful:", response.data);
+            localStorage.setItem("token", response.data.token);
+        } catch (error) {
+            console.error("Error during login:", error);
+        }
+    }
+    return(
+        <div className="flex min-h-screen w-full flex-col lg:flex-row">
+            {/* Form Section */}
+            <div className="flex-1 flex flex-col p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20 items-center justify-center gap-6 sm:gap-8 md:gap-10 max-w-none lg:max-w-[50%]">
+                <img className="h-auto w-32 sm:w-40 md:w-48 lg:w-56 xl:w-80" src="/logo.svg" alt="Logo"/>
+                
+                <div className="flex flex-col items-center text-center">
+                    <p className="text-lg sm:text-xl font-medium text-gray-600">Welcome!</p>
+                    <p className="text-lg sm:text-xl font-medium text-gray-600">Please signup.</p>
+                </div>
+                
+                <div className="flex flex-col w-full max-w-sm sm:max-w-md md:max-w-lg">
+                    {/* <div className="border-b border-t border-r border-l-4 border-b-[#C1BBBB] border-t-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
+                        <p className="text-sm text-gray-500 mb-1">Username</p>
                         <input
+                            value={data?.userName}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, userName: e.target.value }))
+                        }
+                            type="text"
+                            className="border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full text-base text-yellow-500 bg-transparent"
+                        />
+                    </div> */}
+                    <div className="border-b border-r border-l-4 border-b-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
+                        <p className="text-sm text-gray-500 mb-1">Email address</p>
+                        <input
+                            value={data?.email}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, email: e.target.value }))
+                        }
                             type="email"
-                            className="mt-3 w-full border-l-8 border-[#FCC822] p-5 text-2xl rounded"
-                            placeholder="Enter your email"
+                            className="text-base text-yellow-500 border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full bg-transparent"
                         />
                     </div>
-                    <div>
-                        <label className="text-xl font-semibold">Password</label>
+                    <div className="border-b border-r border-l-4 border-b-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
+                        <p className="text-sm text-gray-500 mb-1">Password</p>
                         <input
+                            value={data?.password}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, password: e.target.value }))
+                        }
                             type="password"
-                            className="mt-3 w-full border-l-8 border-[#FCC822] p-5 text-2xl rounded"
-                            placeholder="Enter your password"
+                            className="text-base text-yellow-500 border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full bg-transparent"
                         />
                     </div>
-
-                    <div className="flex justify-between text-lg text-gray-600 mt-4">
-                        <label className="flex items-center">
-                            <input type="checkbox" className="mr-3 scale-125" />
-                            Remember Me
-                        </label>
-                        <a href="#" className="text-yellow-500">Forgot Password?</a>
-                    </div>
-
-                    <div className="flex space-x-6 mt-10">
-                        <button
-                            type="submit"
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white py-4 px-10 rounded shadow text-2xl"
-                        >
-                            Login
-                        </button>
-                        <button
-                            type="button"
-                            className="bg-yellow-400 hover:bg-yellow-500 text-white py-4 px-10 rounded shadow text-2xl"
-                        >
-                            Signup
-                        </button>
-                    </div>
-                </form>
+                </div>
+                
+                <div className="flex flex-col sm:flex-row items-center  w-full max-w-sm sm:max-w-md md:max-w-lg gap-4 sm:gap-0">
+                    <a className="text-gray-600">Dont have an account?</a>
+                    &nbsp;
+                    <button className="text-sm sm:text-base text-yellow-500 hover:underline">SignUp</button>
+                </div>
+                
+                <button onClick={handleLogin} className="w-full max-w-xs sm:max-w-sm h-12 sm:h-14 bg-[#FFCD2E] text-white text-base sm:text-lg font-semibold rounded hover:bg-[#E5B726] transition-colors">
+                    Login
+                </button>
             </div>
-
-             <div className="flex flex-col items-center w-1/2  bg-[#F3F3F3] place-content-center ">
-                <img src="/logo2.svg" className="w-150"/>
+            
+            {/* Image Section */}
+            <div className="hidden lg:flex flex-1 bg-[#F5F5F5] items-center justify-center p-8">
+                <img className="h-auto w-full max-w-md xl:max-w-lg" src="/graduate.svg" alt="Graduate illustration"/>
             </div>
         </div>
-    );
+    )
 }

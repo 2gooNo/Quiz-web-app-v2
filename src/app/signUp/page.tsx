@@ -1,4 +1,29 @@
+"use client"
+import axios from "axios"
+import { useEffect, useState } from "react"
 export default function SignUp() {
+    const [data, setData] = useState({
+        userName: '',
+        email: '',
+        password: ''
+    });
+    async function handleSignUp() {
+        try {
+            const response = await axios.post('http://localhost:8000/user', {
+                userName: data.userName,
+                email: data.email,
+                password: data.password
+            });
+            console.log("Signup successful:", response.data);
+
+        } catch (error) {
+            console.error("Error during signup:", error);
+        }
+
+    }
+    useEffect(() => {
+        console.log("data", data);
+    }, [data]);
     return(
         <div className="flex min-h-screen w-full flex-col lg:flex-row">
             {/* Form Section */}
@@ -7,13 +32,17 @@ export default function SignUp() {
                 
                 <div className="flex flex-col items-center text-center">
                     <p className="text-lg sm:text-xl font-medium text-gray-600">Welcome!</p>
-                    <p className="text-lg sm:text-xl font-medium text-gray-600">Please signup to your account.</p>
+                    <p className="text-lg sm:text-xl font-medium text-gray-600">Please signup.</p>
                 </div>
                 
                 <div className="flex flex-col w-full max-w-sm sm:max-w-md md:max-w-lg">
                     <div className="border-b border-t border-r border-l-4 border-b-[#C1BBBB] border-t-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
                         <p className="text-sm text-gray-500 mb-1">Username</p>
                         <input
+                            value={data?.userName}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, userName: e.target.value }))
+                        }
                             type="text"
                             className="border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full text-base text-yellow-500 bg-transparent"
                         />
@@ -21,6 +50,10 @@ export default function SignUp() {
                     <div className="border-b border-r border-l-4 border-b-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
                         <p className="text-sm text-gray-500 mb-1">Email address</p>
                         <input
+                            value={data?.email}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, email: e.target.value }))
+                        }
                             type="email"
                             className="text-base text-yellow-500 border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full bg-transparent"
                         />
@@ -28,24 +61,23 @@ export default function SignUp() {
                     <div className="border-b border-r border-l-4 border-b-[#C1BBBB] border-r-[#C1BBBB] border-l-[#FCC822] pl-3 pt-2 pb-2 w-full">
                         <p className="text-sm text-gray-500 mb-1">Password</p>
                         <input
+                            value={data?.password}
+                            onChange={(e) =>
+                            setData((prev) => ({ ...prev, password: e.target.value }))
+                        }
                             type="password"
                             className="text-base text-yellow-500 border-none outline-none focus:outline-none focus:ring-0 focus:border-none w-full bg-transparent"
                         />
                     </div>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-sm sm:max-w-md md:max-w-lg gap-4 sm:gap-0">
-                    <div className="flex flex-row items-center gap-2">
-                        <input 
-                            type="checkbox" 
-                            className="appearance-none w-4 h-4 border border-gray-500 rounded checked:bg-blue-500 checked:border-blue-500 relative checked:after:content-['✓'] checked:after:text-white checked:after:text-xs checked:after:absolute checked:after:inset-0 checked:after:flex checked:after:items-center checked:after:justify-center" 
-                        />
-                        <label className="text-sm sm:text-base text-gray-500">Remember Me</label>
-                    </div>
-                    <a href="#" className="text-sm sm:text-base text-yellow-500 hover:underline">Forgot Password?</a>
+                <div className="flex flex-col sm:flex-row items-center  w-full max-w-sm sm:max-w-md md:max-w-lg gap-4 sm:gap-0">
+                    <a className="text-gray-600">Already have an account?</a>
+                    &nbsp;
+                    <button className="text-sm sm:text-base text-yellow-500 hover:underline">Login</button>
                 </div>
                 
-                <button className="w-full max-w-xs sm:max-w-sm h-12 sm:h-14 bg-[#FFCD2E] text-white text-base sm:text-lg font-semibold rounded hover:bg-[#E5B726] transition-colors">
+                <button onClick={handleSignUp} className="w-full max-w-xs sm:max-w-sm h-12 sm:h-14 bg-[#FFCD2E] text-white text-base sm:text-lg font-semibold rounded hover:bg-[#E5B726] transition-colors">
                     Sign up
                 </button>
             </div>
