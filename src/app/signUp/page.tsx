@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 export default function SignUp() {
   const [data, setData] = useState({
@@ -7,6 +8,7 @@ export default function SignUp() {
     email: "",
     password: "",
   });
+  const router = useRouter();
   async function handleSignUp() {
     try {
       const response = await axios.post("http://localhost:8000/user", {
@@ -15,9 +17,13 @@ export default function SignUp() {
         password: data.password,
       });
       console.log("Signup successful:", response.data);
+      router.push("/login");
     } catch (error) {
       console.error("Error during signup:", error);
     }
+  }
+  function jumpLogin() {
+    router.push("/login");
   }
   useEffect(() => {
     console.log("data", data);
@@ -80,7 +86,7 @@ export default function SignUp() {
         <div className="flex flex-col sm:flex-row items-center  w-full max-w-sm sm:max-w-md md:max-w-lg gap-4 sm:gap-0">
           <a className="text-gray-600">Already have an account?</a>
           &nbsp;
-          <button className="text-sm sm:text-base text-yellow-500 hover:underline">
+          <button onClick={jumpLogin} className="text-sm sm:text-base text-yellow-500 hover:underline">
             Login
           </button>
         </div>
