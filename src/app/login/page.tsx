@@ -1,7 +1,9 @@
 "use client";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 export default function Login() {
+    const router = useRouter();
     const [data, setData] = useState({
         email: '',
         password: ''
@@ -14,9 +16,13 @@ export default function Login() {
             });
             console.log("Login successful:", response.data);
             localStorage.setItem("token", response.data.token);
+            router.push('/');
         } catch (error) {
             console.error("Error during login:", error);
         }
+    }
+    function jumpSign() {
+        router.push('/signUp');
     }
     return(
         <div className="flex min-h-screen w-full flex-col lg:flex-row">
@@ -68,7 +74,7 @@ export default function Login() {
                 <div className="flex flex-col sm:flex-row items-center  w-full max-w-sm sm:max-w-md md:max-w-lg gap-4 sm:gap-0">
                     <a className="text-gray-600">Dont have an account?</a>
                     &nbsp;
-                    <button className="text-sm sm:text-base text-yellow-500 hover:underline">SignUp</button>
+                    <button onClick={jumpSign} className="text-sm sm:text-base text-yellow-500 hover:underline">SignUp</button>
                 </div>
                 
                 <button onClick={handleLogin} className="w-full max-w-xs sm:max-w-sm h-12 sm:h-14 bg-[#FFCD2E] text-white text-base sm:text-lg font-semibold rounded hover:bg-[#E5B726] transition-colors">
