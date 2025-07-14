@@ -43,7 +43,7 @@ export default function Home() {
     router.push(`/quizPlay?catNames=${joinedString}`);
   }
   return (
-    <div className="flex relative bg-[#F5F5F5] text-[#333333] justify-center items-center">
+    <div className="flex relative bg-[#F5F5F5] text-[#333333] justify-center items-center min-h-screen w-full">
       <div className="min-h-screen w-full flex flex-col">
         <NavBar />
         <div className="flex items-center">
@@ -51,37 +51,26 @@ export default function Home() {
         </div>
       </div>
       {isCat && (
-        <div className="flex flex-col gap-6 z-2 absolute bg-white w-350 h-220 px-25 py-25">
-          <p className="flex justify-center text-6xl font-bold">
+        <div className="flex flex-col gap-4 sm:gap-6 z-20 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-[90vw] max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl px-4 sm:px-8 md:px-12 py-6 sm:py-10 rounded-lg shadow-lg border border-gray-200">
+          <p className="text-center text-2xl sm:text-3xl md:text-4xl font-bold">
             Choose your topic
           </p>
-          <p className="flex justify-center text-2xl py-6>">
+          <p className="text-center text-base sm:text-lg md:text-xl text-gray-600">
             Select at least 1 to start solving questions
           </p>
-          <div className="flex flex-row flex-wrap gap-6 ">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
             {cat.map((category: any, index: number) => (
               <div
                 key={index}
-                className="flex 
-                 text-4xl font-bold
-                 border-2 border-[#D1D1D1] bg-[#D1D1D1] 
-                 px-5 py-1"
+                className={`flex items-center justify-center text-base sm:text-lg md:text-xl lg:text-2xl font-bold border-2 px-3 py-2 sm:px-4 sm:py-3 rounded-lg cursor-pointer transition-colors duration-150 ${activeIndexes.includes(index) ? 'bg-[#FCC822] border-[#FCC822] text-white' : 'bg-[#D1D1D1] border-[#D1D1D1] text-[#333]'}`}
                 onClick={() => toggleButton(index)}
-                style={{
-                  backgroundColor: activeIndexes.includes(index)
-                    ? "#FCC822"
-                    : "#D1D1D1",
-                  borderColor: activeIndexes.includes(index)
-                    ? "#FCC822"
-                    : "#D1D1D1",
-                }}
               >
                 {category.name}
               </div>
             ))}
           </div>
           <button
-            className="bg-[#FCC822] text-white px-6 py-2 rounded-lg text-2xl font-bold"
+            className="bg-[#FCC822] text-white px-6 py-2 sm:py-3 rounded-lg text-lg sm:text-xl font-bold mt-2 hover:bg-[#e5b726] transition-colors"
             onClick={handleStart}
           >
             Start Quiz
@@ -89,7 +78,7 @@ export default function Home() {
         </div>
       )}
       {isCat && (
-        <div className="fixed inset-0 bg-black opacity-40 pointer-events-none z-1" />
+        <div className="fixed inset-0 bg-black opacity-40 pointer-events-none z-10" />
       )}
     </div>
   );
